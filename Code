@@ -1,0 +1,20 @@
+import gradio as gr
+
+def is_malicious_input(user_input):
+    suspicious_keywords = [
+        "ignore", "forget", "pretend", "repeat after me",
+        "disregard", "replace", "instead", "follow this", "as an AI"
+    ]
+    for word in suspicious_keywords:
+        if word in user_input.lower():
+            return "⚠️ Warning: Possible prompt injection detected!"
+    return "✅ Input looks safe."
+
+# Launch Gradio interface
+gr.Interface(
+    fn=is_malicious_input,
+    inputs=gr.Textbox(label="User Input"),
+    outputs=gr.Textbox(label="Result"),
+    title="Prompt Injection Detector",
+    description="Type input to test for prompt injection patterns"
+).launch()
